@@ -4,11 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.busschedule.database.schedule.Schedule
 import com.example.busschedule.database.schedule.ScheduleDAO
+import kotlinx.coroutines.flow.Flow
 
 class BusScheduleViewModel(private val scheduleDAO: ScheduleDAO): ViewModel() {
 
-    fun fullSchedule(): List<Schedule> = scheduleDAO.getAll()
-    fun scheduleForStopName(name: String): List<Schedule> = scheduleDAO.getByStopName(name)
+    fun fullSchedule(): Flow<List<Schedule>> = scheduleDAO.getAll()
+    fun scheduleForStopName(name: String): Flow<List<Schedule>> = scheduleDAO.getByStopName(name)
 
 
 }

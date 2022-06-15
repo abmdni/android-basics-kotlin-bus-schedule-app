@@ -28,9 +28,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.busschedule.databinding.FullScheduleFragmentBinding
 import com.example.busschedule.viewmodels.BusScheduleViewModel
 import com.example.busschedule.viewmodels.BusScheduleViewModelFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 class FullScheduleFragment: Fragment() {
 
@@ -71,8 +70,13 @@ class FullScheduleFragment: Fragment() {
         }
         recyclerView.adapter = busStopAdapter
 
-        GlobalScope.launch(Dispatchers.IO) {
-            busStopAdapter.submitList(viewModel.fullSchedule())
+        //GlobalScope.launch(Dispatchers.IO) {
+        //    busStopAdapter.submitList(viewModel.fullSchedule())
+        //}
+        lifecycle.coroutineScope.launch {
+            viewModel.fullSchedule().collect() {
+                busStopAdapter.submitList(it)
+            }
         }
 
     }
